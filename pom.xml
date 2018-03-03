@@ -17,6 +17,8 @@
 
         <version.spring.boot>2.0.0.RELEASE</version.spring.boot>
         <docker.image.name>${project.artifactId}</docker.image.name>
+        <docker.image.tag>latest</docker.image.tag>
+        <image.pull.policy>Never</image.pull.policy>
     </properties>
 
     <modules>
@@ -65,6 +67,9 @@
                             <image>
                                 <name>${docker.image.name}</name>
                                 <build>
+                                    <tags>
+                                        <tag>${docker.image.tag}</tag>
+                                    </tags>
                                     <dockerFile>${project.basedir}/src/main/docker/Dockerfile</dockerFile>
                                     <assembly>
                                         <descriptorRef>artifact-with-dependencies</descriptorRef>

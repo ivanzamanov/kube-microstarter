@@ -16,8 +16,8 @@ spec:
         type: Recreate
       containers:
       - name: default
-        image: kube-microstarter
-        imagePullPolicy: Never
+        image: ${docker.image.name}:${docker.image.tag}
+        imagePullPolicy: ${image.pull.policy}
         ports:
         - containerPort: 8080
 ---
@@ -28,7 +28,7 @@ metadata:
 spec:
   selector:
     app: ${project.artifactId}
-  type: NodePort
+  type: ClusterIP
   ports:
     - protocol: TCP
       port: 80
