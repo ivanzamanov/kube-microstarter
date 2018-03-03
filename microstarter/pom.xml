@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <name>Kubernetes Microservice Starter</name>
-    <description>A microservice starter project, leveraging Kubernetes as dev accelerator</description>
+    <description>A microservice starter project, leveraging Kubernetes/Minikube as dev accelerator</description>
 
     <dependencies>
         <dependency>
@@ -23,6 +23,14 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/kube</directory>
+                <includes>
+                    <include>continuous.yaml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
