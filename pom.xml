@@ -15,7 +15,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <version.spring.boot>1.5.10.RELEASE</version.spring.boot>
+        <version.spring.boot>2.0.0.RELEASE</version.spring.boot>
+        <docker.image.name>${project.artifactId}</docker.image.name>
     </properties>
 
     <modules>
@@ -34,6 +35,11 @@
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${version.spring.boot}</version>
             </dependency>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.11</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -44,6 +50,40 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${version.spring.boot}</version>
+                </plugin>
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>0.24.0</version>
+                    <configuration>
+                        <images>
+                            <image>
+                                <name>${docker.image.name}</name>
+                                <build>
+                                    <dockerFile>${project.basedir}/src/main/docker/Dockerfile</dockerFile>
+                                    <assembly>
+                                        <descriptorRef>artifact-with-dependencies</descriptorRef>
+                                    </assembly>
+                                </build>
+                            </image>
+                        </images>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>build</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>push</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>push</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
